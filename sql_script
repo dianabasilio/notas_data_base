@@ -1,0 +1,121 @@
+CREATE SCHEMA `notes_db` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_mysql500_ci ;
+
+SET FOREIGN_KEY_CHECKS=0;
+CREATE TABLE `notes_db`.`usuarios` (
+`id` INT NOT NULL AUTO_INCREMENT,
+  `email` VARCHAR(100) NOT NULL,
+  `nombre` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`id`));
+  
+  CREATE TABLE `notes_db`.`notas` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `titulo` VARCHAR(100) NULL,
+  `created_at` DATETIME NULL,
+  `updated_at` DATETIME NULL,
+  `descripcion` TEXT(1500) NULL,
+  `mecanismo` TINYTEXT NULL,
+  PRIMARY KEY (`id`));
+  
+  CREATE TABLE `notes_db`.`categorias` (
+  `id` INT NOT NULL,
+  `nombre` VARCHAR(70) NULL,
+  PRIMARY KEY (`id`));
+  
+  ALTER TABLE `notes_db`.`notas` 
+ADD COLUMN `categoria_id` INT NULL AFTER `mecanismo`,
+ADD INDEX `fk_categoria_nota_idx` (`categoria_id` ASC) ;
+;
+ALTER TABLE `notes_db`.`notas` 
+ADD CONSTRAINT `fk_categoria_nota`
+  FOREIGN KEY (`categoria_id`)
+  REFERENCES `notes_db`.`categorias` (`id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+  
+ALTER TABLE `notes_db`.`notas` 
+ADD COLUMN `usuario_id` INT NULL AFTER `categoria_id`,
+ADD INDEX `fk_usuario_nota_idx` (`usuario_id` ASC) ;
+;
+ALTER TABLE `notes_db`.`notas` 
+ADD CONSTRAINT `fk_usuario_nota`
+  FOREIGN KEY (`usuario_id`)
+  REFERENCES `notes_db`.`usuarios` (`id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+
+  
+use notes_db;
+INSERT INTO categorias
+VALUES (1, "terminado");
+
+
+INSERT INTO categorias
+VALUES (2, "en_proceso");
+
+INSERT INTO categorias
+VALUES (3, "pendientes");
+
+INSERT INTO usuarios (id, email, nombre)
+VALUES (DEFAULT, 'dianabasilio99@hotmail.com', 'diana');
+
+INSERT INTO usuarios (id, email, nombre)
+VALUES (DEFAULT, 'juan56@hotmail.com', 'juan');
+INSERT INTO usuarios (id, email, nombre)
+VALUES (DEFAULT, 'luis56@hotmail.com', 'luis');
+INSERT INTO usuarios (id, email, nombre)
+VALUES (DEFAULT, 'joan@hotmail.com', 'joan');
+INSERT INTO usuarios (id, email, nombre)
+VALUES (DEFAULT, 'clara@hotmail.com', 'clara');
+
+INSERT INTO usuarios (id, email, nombre)
+VALUES (DEFAULT, 'beto6@hotmail.com', 'Alberto');
+
+INSERT INTO usuarios (id, email, nombre)
+VALUES (DEFAULT, 'laura7@hotmail.com', 'Laura');
+
+INSERT INTO usuarios (id, email, nombre)
+VALUES (DEFAULT, 'sofia5@hotmail.com', 'Sofia');
+
+
+INSERT INTO notas
+VALUES (DEFAULT,"Compra de maletas", NOW() , NOW(),"Necesito comprar maletas",1 ,1, 1);
+
+INSERT INTO notas
+VALUES (DEFAULT,"Baile", NOW() , NOW(),"Necesito clase baile",1 ,2, 2);
+
+
+INSERT INTO notas
+VALUES (DEFAULT,"CRUD", NOW() , NOW(),"Hacer crud de usuarios",1 ,1, 8);
+
+
+INSERT INTO notas
+VALUES (DEFAULT,"hacer mockups", NOW() , NOW(),"mockups de acuerdo a platica con Luis",1 ,2, 2);
+
+
+INSERT INTO notas
+VALUES (DEFAULT,"GYM", NOW() , NOW(),"ir al gym a las 4pm",1 ,1, 1);
+
+INSERT INTO notas
+VALUES (DEFAULT,"yolanda numero" ,NOW() , NOW(),"marcar a yolanda",1 ,1, 1);
+
+INSERT INTO notas
+VALUES (DEFAULT,"boton inicio" ,NOW() , NOW(),"ajustar boton de inicio",1 ,1, 8);
+
+INSERT INTO notas
+VALUES (DEFAULT,"CRUD de productos" ,NOW() , NOW(),"productos de acuerdo a Luis",1 ,1, 7);
+
+
+INSERT INTO notas
+VALUES (DEFAULT,"Back-end" ,NOW() , NOW(),"programación con python",1 ,0, 4);
+
+INSERT INTO notas
+VALUES (DEFAULT,"Front-end" ,NOW() , NOW(),"mejorar css",1 ,0, 4);
+SELECT *
+FROM categorias;
+
+SELECT *
+FROM usuarios;
+
+SELECT *
+FROM notas;
